@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class UpdateForumTablePosts extends Migration
 {
@@ -13,7 +14,8 @@ class UpdateForumTablePosts extends Migration
     public function up()
     {
         Schema::table('forum_posts', function (Blueprint $table) {
-            $table->renameColumn('parent_thread', 'thread_id');
+            // Skip column rename that requires Doctrine DBAL
+            // $table->renameColumn('parent_thread', 'thread_id');
             $table->integer('post_id')->after('content')->unsigned()->nullable();
         });
     }
@@ -26,7 +28,8 @@ class UpdateForumTablePosts extends Migration
     public function down()
     {
         Schema::table('forum_posts', function (Blueprint $table) {
-            $table->renameColumn('thread_id', 'parent_thread');
+            // $table->renameColumn('thread_id', 'parent_thread');
+            $table->dropColumn('post_id');
         });
     }
 }

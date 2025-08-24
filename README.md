@@ -1,23 +1,116 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# 🎯 Cờ Tướng DotTop - Online Chinese Chess Game
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+🎮 **Cờ Tướng Online** - Game cờ tướng trực tuyến được xây dựng bằng Laravel và JavaScript với tính năng realtime, chat, bài tập cờ và forum thảo luận.
 
-## About Laravel
+## 🚀 Khởi tạo dự án "1 phát ăn luôn"
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 📋 Yêu cầu hệ thống
+- PHP >= 8.0
+- Composer
+- MySQL/MariaDB
+- Node.js & npm
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 🔧 Cài đặt tự động (Khuyến nghị)
+
+**Sử dụng script setup tự động:**
+```bash
+git clone <repository-url>
+cd cotuongdottop
+chmod +x setup.sh
+./setup.sh
+```
+
+Script sẽ tự động:
+- ✅ Kiểm tra yêu cầu hệ thống
+- 📦 Cài đặt dependencies (composer + npm)
+- 🔑 Tạo file .env và generate app key
+- 🗄️ Hướng dẫn cấu hình database
+- 🔄 Chạy migration và seed dữ liệu
+
+### 🔧 Cài đặt thủ công
+
+### Bước 1: Clone và cài đặt dependencies
+```bash
+git clone <repository_url>
+cd cotuongdottop
+composer install --no-interaction --prefer-dist --optimize-autoloader
+npm install
+```
+
+### Bước 2: Tạo file .env
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+### Bước 3: Cấu hình database trong .env
+```env
+DB_CONNECTION=mysql
+DB_HOST=localhost
+DB_PORT=3306
+DB_DATABASE=cotuongdottop_db
+DB_USERNAME=cotuongdottop_user
+DB_PASSWORD=CoTuongDotTop@123
+```
+
+### Bước 4: Tạo database và user MySQL
+```bash
+# Đăng nhập MySQL với user root
+mysql -u root -p
+
+# Tạo database và user (chạy trong MySQL)
+CREATE DATABASE cotuongdottop_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'cotuongdottop_user'@'localhost' IDENTIFIED BY 'CoTuongDotTop@123';
+GRANT ALL PRIVILEGES ON cotuongdottop_db.* TO 'cotuongdottop_user'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+```
+
+### Bước 5: Chạy migration và seed dữ liệu
+```bash
+php artisan migrate --force
+php artisan db:seed --force
+```
+
+### Bước 6: Compile assets và khởi động server
+```bash
+npm run dev
+php artisan serve
+```
+
+🎉 **Hoàn thành!** Truy cập http://127.0.0.1:8000 để chơi cờ tướng online!
+
+## 📁 Cấu trúc Database
+
+- **rooms** - Quản lý phòng chơi cờ
+- **users** - Thông tin người dùng 
+- **players** - Thông tin người chơi
+- **puzzles** - Cờ thế và puzzle
+- **posts** - Bài viết và nội dung
+- **contacts** - Liên hệ từ người dùng
+- **ch_messages** - Tin nhắn chat
+- **ch_favorites** - Danh sách yêu thích
+
+## 🎮 Tính năng chính
+
+- ♟️ Chơi cờ tướng online real-time
+- 👥 Multiplayer với người chơi khác
+- 🧩 Hệ thống puzzle và cờ thế
+- 💬 Chat trực tuyến
+- 📊 Thống kê và ranking
+- 🌍 Hỗ trợ đa ngôn ngữ (VI, EN, JA, KO, ZH)
+
+## 🛠️ Tech Stack
+
+- **Backend**: Laravel 9.x
+- **Frontend**: JavaScript, HTML5 Canvas
+- **Database**: MySQL
+- **Chat**: Chatify package
+- **Assets**: Laravel Mix
+
+## 📝 License
+
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
