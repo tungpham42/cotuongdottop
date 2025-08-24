@@ -6,6 +6,11 @@ Dự án Laravel cờ tướng đã được chuẩn hóa và sẵn sàng cho vi
 
 ### 📊 Tình trạng hiện tại
 
+#### ✅ System Requirements
+- [x] PHP 8.0-8.2 compatibility (Laravel 9.x requirement)
+- [x] MySQL 5.7+ / MariaDB 10.3+ support
+- [x] Composer 2.x và NPM dependencies
+
 #### ✅ Database & Migrations
 - [x] Database `cotuongdottop_db` đã được tạo và cấu hình
 - [x] User `cotuongdottop_user` với password `CoTuongDotTop@123` 

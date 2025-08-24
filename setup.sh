@@ -9,12 +9,33 @@ echo "📋 Kiểm tra yêu cầu hệ thống..."
 
 # Kiểm tra PHP
 if ! command -v php &> /dev/null; then
-    echo "❌ PHP chưa được cài đặt. Vui lòng cài đặt PHP >= 8.0"
+    echo "❌ PHP chưa được cài đặt. Vui lòng cài đặt PHP >= 8.0 (tối đa 8.2 cho Laravel 9)"
     exit 1
 fi
 
 php_version=$(php -r "echo PHP_VERSION;")
+php_major=$(php -r "echo PHP_MAJOR_VERSION;")
+php_minor=$(php -r "echo PHP_MINOR_VERSION;")
+
 echo "✅ PHP: $php_version"
+
+# Kiểm tra phiên bản PHP phù hợp với Laravel 9
+if [ "$php_major" -lt 8 ]; then
+    echo "❌ PHP phiên bản quá thấp. Laravel 9 yêu cầu PHP >= 8.0"
+    exit 1
+elif [ "$php_major" -eq 8 ] && [ "$php_minor" -gt 2 ]; then
+    echo "⚠️ CẢNH BÁO: PHP $php_version có thể không tương thích với Laravel 9.x"
+    echo "   Khuyến nghị downgrade về PHP 8.2:"
+    echo "   brew install php@8.2"
+    echo "   Kiểm tra version: php --version"
+    echo "   Nếu vẫn hiển thị PHP $php_version, chạy: brew link --force --overwrite php@8.2"
+elif [ "$php_major" -gt 8 ]; then
+    echo "⚠️ CẢNH BÁO: PHP $php_version có thể không tương thích với Laravel 9.x"
+    echo "   Khuyến nghị downgrade về PHP 8.2:"
+    echo "   brew install php@8.2"
+    echo "   Kiểm tra version: php --version"
+    echo "   Nếu vẫn hiển thị PHP $php_version, chạy: brew link --force --overwrite php@8.2"
+fi
 
 # Kiểm tra Composer
 if ! command -v composer &> /dev/null; then

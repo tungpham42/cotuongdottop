@@ -5,10 +5,21 @@
 ## 🚀 Khởi tạo dự án "1 phát ăn luôn"
 
 ### 📋 Yêu cầu hệ thống
-- PHP >= 8.0
+- PHP >= 8.0 (tối đa PHP 8.2 cho Laravel 9.x)
 - Composer
 - MySQL/MariaDB
 - Node.js & npm
+
+**⚠️ Lưu ý về PHP version:**
+- Nếu bạn đang dùng PHP > 8.2, khuyến nghị downgrade về PHP 8.2:
+  ```bash
+  # macOS với Homebrew
+  brew install php@8.2
+  brew link --force --overwrite php@8.2
+  
+  # Hoặc thêm vào .zshrc/.bashrc
+  export PATH="/opt/homebrew/opt/php@8.2/bin:$PATH"
+  ```
 
 ### 🔧 Cài đặt tự động (Khuyến nghị)
 
@@ -102,13 +113,73 @@ php artisan serve
 
 ## 🛠️ Tech Stack
 
-- **Backend**: Laravel 9.x
+- **Backend**: Laravel 9.x (requires PHP 8.0-8.2)
 - **Frontend**: JavaScript, HTML5 Canvas
-- **Database**: MySQL
+- **Database**: MySQL 5.7+ / MariaDB 10.3+
 - **Chat**: Chatify package
 - **Assets**: Laravel Mix
+- **Package Manager**: Composer 2.x, NPM
 
-## 📝 License
+## � Troubleshooting
+
+### Lỗi PHP version không tương thích
+
+**Nếu bạn gặp lỗi với PHP 8.3+ trên macOS:**
+```bash
+# Bước 1: Cài đặt PHP 8.2
+brew install php@8.2
+
+# Bước 2: Kiểm tra version hiện tại
+php --version
+
+# Bước 3: Nếu vẫn hiển thị PHP 8.3+, mới cần link
+brew link --force --overwrite php@8.2
+
+# Bước 4: Hoặc sử dụng PATH (không thay đổi system PHP)
+echo 'export PATH="/opt/homebrew/opt/php@8.2/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+
+# Bước 5: Xác nhận version đã đúng
+php --version    # Phải hiển thị PHP 8.2.x
+```
+
+**Trên Ubuntu/Debian:**
+```bash
+# Thêm repository PHP
+sudo add-apt-repository ppa:ondrej/php
+sudo apt update
+
+# Cài đặt PHP 8.2
+sudo apt install php8.2 php8.2-cli php8.2-common
+
+# Switch version
+sudo update-alternatives --config php
+```
+
+### Lỗi dependencies và cache
+```bash
+# Clear cache Laravel
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+
+# Reinstall dependencies
+rm -rf vendor/ node_modules/
+composer install
+npm install
+```
+
+### Lỗi database connection
+```bash
+# Kiểm tra MySQL service
+sudo systemctl status mysql    # Linux
+brew services list | grep mysql    # macOS
+
+# Test connection
+mysql -u cotuongdottop_user -p cotuongdottop_db
+```
+
+## �📝 License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
