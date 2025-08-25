@@ -92,53 +92,139 @@ php artisan key:generate
 
 # Hướng dẫn cấu hình database
 echo ""
-echo "🗄️ HƯỚNG DẪN CẤU HÌNH DATABASE"
-echo "================================"
-echo "1. Tạo database MySQL:"
-echo "   mysql -u root -p"
-echo "   CREATE DATABASE cotuongdottop_db;"
-echo "   CREATE USER 'cotuongdottop_user'@'localhost' IDENTIFIED BY 'CoTuongDotTop@123';"
-echo "   GRANT ALL PRIVILEGES ON cotuongdottop_db.* TO 'cotuongdottop_user'@'localhost';"
-echo "   FLUSH PRIVILEGES;"
-echo "   EXIT;"
-echo ""
-echo "2. Cập nhật file .env với thông tin database:"
-echo "   DB_DATABASE=cotuongdottop_db"
-echo "   DB_USERNAME=cotuongdottop_user"
-echo "   DB_PASSWORD=CoTuongDotTop@123"
+echo "🗄️ KIỂM TRA VÀ THIẾT LẬP DATABASE"
+echo "================================="
+
+# Kiểm tra database đã tồn tại chưa
+echo "🔍 Kiểm tra database cotuongdottop_db..."
+
+# Hỏi thông tin MySQL root để kiểm tra
+echo "📋 Cần thông tin MySQL để kiểm tra database:"
+read -p "MySQL root username (mặc định: root): " mysql_root_user
+mysql_root_user=${mysql_root_user:-root}
+
+echo -n "MySQL root password (để trống nếu không có): "
+read -s mysql_root_pass
 echo ""
 
-# Hỏi người dùng có muốn chạy migration không
-read -p "Bạn đã cấu hình database chưa? (y/n): " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    # Chạy migration
-    echo "🔄 Chạy database migrations..."
-    php artisan migrate --force
-    
-    # Chạy seeding
-    echo "🌱 Seed dữ liệu mẫu..."
-    php artisan db:seed --force
-    
-    echo ""
-    echo "✅ KHỞI TẠO THÀNH CÔNG!"
-    echo "======================"
-    echo "🎮 Dự án đã sẵn sàng!"
-    echo ""
-    echo "🚀 Để chạy server development:"
-    echo "   php artisan serve"
-    echo ""
-    echo "🌐 Truy cập: http://localhost:8000"
-    echo ""
-    echo "📱 Thông tin database:"
-    echo "   Database: cotuongdottop_db"
-    echo "   Username: cotuongdottop_user"
-    echo "   Password: CoTuongDotTop@123"
-    echo ""
+# Tạo command MySQL dựa trên có password hay không
+if [ -z "$mysql_root_pass" ]; then
+    mysql_cmd="mysql -u $mysql_root_user"
 else
-    echo ""
-    echo "⚠️ Vui lòng cấu hình database trước, sau đó chạy:"
-    echo "   php artisan migrate"
-    echo "   php artisan db:seed"
-    echo "   php artisan serve"
+    mysql_cmd="mysql -u $mysql_root_user -p$mysql_root_pass"
 fi
+
+# Test MySQL connection trước
+echo "🔍 Kiểm tra kết nối MySQL với credentials đã nhập..."
+$mysql_cmd -e "SELECT 1;" > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo "❌ Không thể kết nối MySQL với credentials đã nhập"
+    echo "Vui lòng kiểm tra username/password và thử lại"
+    exit 1
+fi
+echo "✅ MySQL connection: OK"
+
+# Kiểm tra database existence
+db_exists=$($mysql_cmd -e "SHOW DATABASES LIKE 'cotuongdottop_db';" 2>/dev/null | grep cotuongdottop_db)
+
+if [ -z "$db_exists" ]; then
+    echo "⚠️ Database chưa tồn tại"
+    echo "🔧 Tự động tạo database và user..."
+    
+    # Thử tạo database (sử dụng credentials đã nhập)
+    echo "🔧 Đang tạo database..."
+    $mysql_cmd -e "
+        CREATE DATABASE IF NOT EXISTS cotuongdottop_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+        CREATE USER IF NOT EXISTS 'cotuongdottop_user'@'localhost' IDENTIFIED BY 'CoTuongDotTop@123';
+        GRANT ALL PRIVILEGES ON cotuongdottop_db.* TO 'cotuongdottop_user'@'localhost';
+        FLUSH PRIVILEGES;
+    " 2>/dev/null
+    
+    if [ $? -eq 0 ]; then
+        echo "✅ Database và user đã được tạo tự động!"
+    else
+        echo "❌ Không thể tạo database tự động"
+        echo "Vui lòng chạy manual:"
+        echo "   mysql -u $mysql_root_user -p"
+        echo "   CREATE DATABASE cotuongdottop_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+        echo "   CREATE USER 'cotuongdottop_user'@'localhost' IDENTIFIED BY 'CoTuongDotTop@123';"
+        echo "   GRANT ALL PRIVILEGES ON cotuongdottop_db.* TO 'cotuongdottop_user'@'localhost';"
+        echo "   FLUSH PRIVILEGES;"
+        echo "   EXIT;"
+        echo ""
+        read -p "Nhấn Enter sau khi đã tạo database manual..." -r
+    fi
+else
+    echo "✅ Database cotuongdottop_db đã tồn tại"
+fi
+
+# Test connection
+echo "🔍 Kiểm tra kết nối database..."
+mysql -u cotuongdottop_user -pCoTuongDotTop@123 cotuongdottop_db -e "SELECT 1;" > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo "❌ Không thể kết nối database với user cotuongdottop_user"
+    echo "Vui lòng kiểm tra:"
+    echo "   - MySQL service: brew services list | grep mysql"
+    echo "   - User permissions: mysql -u root -p -e \"SHOW GRANTS FOR 'cotuongdottop_user'@'localhost';\""
+    exit 1
+fi
+echo "✅ Database connection: OK"
+
+# Cập nhật .env file tự động
+echo "📝 Cập nhật file .env với database config..."
+if [ -f .env ]; then
+    # Update existing .env
+    sed -i '' 's/^DB_DATABASE=.*/DB_DATABASE=cotuongdottop_db/' .env
+    sed -i '' 's/^DB_USERNAME=.*/DB_USERNAME=cotuongdottop_user/' .env
+    sed -i '' 's/^DB_PASSWORD=.*/DB_PASSWORD=CoTuongDotTop@123/' .env
+    echo "✅ File .env đã được cập nhật"
+fi
+
+# Clear cache trước khi migrate
+echo "🧹 Clear cache và autoload..."
+php artisan cache:clear > /dev/null 2>&1
+php artisan config:clear > /dev/null 2>&1
+composer dump-autoload > /dev/null 2>&1
+
+# Dọn dẹp migration files lỗi
+echo "🧹 Dọn dẹp migration files..."
+# Xóa các file migration trống hoặc duplicate
+find database/migrations/ -name "*.php" -size 0 -delete 2>/dev/null
+# Xóa migration simple duplicate nếu có
+rm -f database/migrations/*_create_rooms_table_simple.php 2>/dev/null
+
+# Chạy migration với error handling
+echo "🔄 Chạy database migrations..."
+php artisan migrate --force
+if [ $? -ne 0 ]; then
+    echo "❌ Migration failed. Thử reset và chạy lại..."
+    php artisan migrate:reset --force > /dev/null 2>&1
+    php artisan migrate --force
+    if [ $? -ne 0 ]; then
+        echo "❌ Migration vẫn failed. Chạy script fix-migrations.sh để khắc phục."
+        echo "   ./fix-migrations.sh"
+        exit 1
+    fi
+fi
+
+# Chạy seeding
+echo "🌱 Seed dữ liệu mẫu..."
+php artisan db:seed --force
+
+echo ""
+echo "✅ KHỞI TẠO THÀNH CÔNG!"
+echo "======================"
+echo "🎮 Dự án đã sẵn sàng!"
+echo ""
+echo "🚀 Để chạy server development:"
+echo "   php artisan serve"
+echo "   Hoặc chỉ định port: php artisan serve --port=8888"
+echo ""
+echo "🌐 Truy cập: http://localhost:8000 (hoặc port tương ứng)"
+echo ""
+echo "📱 Thông tin database:"
+echo "   Database: cotuongdottop_db"
+echo "   Username: cotuongdottop_user"
+echo "   Password: CoTuongDotTop@123"
+echo ""
+echo "💡 Lưu ý: Nếu port 8000 bị chiếm, hãy thử port khác như 8001, 8080, 8888"

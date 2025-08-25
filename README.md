@@ -1,6 +1,25 @@
 # 🎯 Cờ Tướng DotTop - Online Chinese Chess Game
 
-🎮 **Cờ Tướng Online** - Game cờ tướng trực tuyến được xây dựng bằng Laravel và JavaScript với tính năng realtime, chat, bài tập cờ và forum thảo luận.
+🎮 **Cờ Tướng Online** - Game cờ tướng trực tuyến được xây dựng bằng Laravel v## 🐛 Troubleshooting
+
+### 🚨 Quick Fix cho lỗi thường gặp
+
+**Nếu setup.sh bị lỗi migration hoặc database:**
+```bash
+# Chạy script fix tự động
+./fix-migrations.sh
+```
+
+**Hoặc fix manual nhanh:**
+```bash
+# Reset và chạy lại
+php artisan migrate:reset --force
+composer dump-autoload
+php artisan migrate --force
+php artisan db:seed --force
+```
+
+### Lỗi PHP version không tương thíchavaScript với tính năng realtime, chat, bài tập cờ và forum thảo luận.
 
 ## 🚀 Khởi tạo dự án "1 phát ăn luôn"
 
@@ -29,6 +48,12 @@ git clone <repository-url>
 cd cotuongdottop
 chmod +x setup.sh
 ./setup.sh
+```
+
+**Nếu gặp lỗi migration, chạy script fix:**
+```bash
+chmod +x fix-migrations.sh
+./fix-migrations.sh
 ```
 
 Script sẽ tự động:
@@ -177,6 +202,41 @@ brew services list | grep mysql    # macOS
 
 # Test connection
 mysql -u cotuongdottop_user -p cotuongdottop_db
+```
+
+### Lỗi migration và bảng không tồn tại
+
+**Lỗi: `Table 'rooms' doesn't exist` hoặc `Class not found`**
+```bash
+# Bước 1: Reset migrations hoàn toàn
+php artisan migrate:reset
+
+# Bước 2: Clear tất cả cache
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+composer dump-autoload
+
+# Bước 3: Chạy lại migrations
+php artisan migrate --force
+
+# Bước 4: Nếu vẫn lỗi, kiểm tra database
+mysql -u cotuongdottop_user -pCoTuongDotTop@123 cotuongdottop_db -e "SHOW TABLES;"
+
+# Bước 5: Nếu database trống, seed lại
+php artisan db:seed --force
+```
+
+**Lỗi: `UpdateForumTableCategories not found`**
+```bash
+# Xóa migration bị lỗi tạm thời
+mv database/migrations/2015_07_22_181406_update_forum_table_categories.php /tmp/
+
+# Chạy migration
+php artisan migrate
+
+# Khôi phục file migration
+mv /tmp/2015_07_22_181406_update_forum_table_categories.php database/migrations/
 ```
 
 ## �📝 License
