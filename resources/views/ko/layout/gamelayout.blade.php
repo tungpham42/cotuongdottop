@@ -24,6 +24,9 @@
             Your browser does not support the audio element.
           </audio>
           <div class="row">
+            @include('ko.layout.partials.findMatch')
+          </div>
+          <div class="row">
             <div class="col-12 text-center">
               @include('common.topAds')
               @yield('aboveBoard')
@@ -57,7 +60,6 @@
                 @include('common.tourBtn')
                 {{-- <a class="btn btn-dark text-light btn-lg stopPromotion shopee-link" href="https://shopee.vn/tungpham42" target="_blank"><i class="fad fa-shopping-cart"></i> 가게</a> --}}
                 <div class="dropdown-menu dropdown-menu-right shadow-lg" aria-labelledby="hostDropdown" id="tao-phong" data-phong="{{ md5(time()) }}" data-url="{{ URL::to('/') }}/bang/{{ md5(time()) }}">
-                  <a data-toggle="tooltip" data-placement="bottom" title="암호 없이 재생" id="tao-phong-public" class="dropdown-item" style="cursor: pointer !important;"><i class="fas fa-globe text-dark"></i> 공공의</a>
                   <a data-toggle="tooltip" data-placement="bottom" title="암호로 재생" id="tao-phong-private" class="dropdown-item" style="cursor: pointer !important;"><i class="fas fa-lock text-dark"></i> 사적인</a>
                   @if ($randomRoom != null)
                   <a data-toggle="tooltip" data-placement="bottom" title="임의의 공용 룸에서 재생" id="random-room" class="dropdown-item" style="cursor: pointer !important;" href="{{ URL::to('/') }}/bang/{{ $randomRoom['code'] }}/mujag-wiui"><i class="fas fa-random text-dark"></i> 무작위의</a>

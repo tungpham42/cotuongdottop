@@ -2,13 +2,15 @@
 @section('aboveContent')
 <div class="container-fluid game px-0">
   <div class="container p-3">
+    <div class="row">
+      @include('zh.layout.partials.findMatch')
+    </div>
     <h2 class="h1-responsivefooter text-center my-4">房间列表</h2>
     <div class="dropdown mx-auto text-center mb-3">
       <button data-step="1" data-intro="点击这里与其他玩家竞争" class="btn btn-danger btn-lg dropdown-toggle pulse-red" type="button" id="hostDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span data-toggle="tooltip" data-placement="top" title="在房间里和某人玩"><i class="fad fa-gamepad-alt"></i> 在线下棋</span>
       </button>
       <div class="dropdown-menu dropdown-menu-right shadow-lg" aria-labelledby="hostDropdown" id="tao-phong" data-phong="{{ md5(time()) }}" data-url="{{ URL::to('/') }}/fangjian/{{ md5(time()) }}">
-        <a data-toggle="tooltip" data-placement="bottom" title="无密码播放" id="tao-phong-public" class="dropdown-item" style="cursor: pointer !important;"><i class="fas fa-globe text-dark"></i> 平民的</a>
         <a data-toggle="tooltip" data-placement="bottom" title="玩密码" id="tao-phong-private" class="dropdown-item" style="cursor: pointer !important;"><i class="fas fa-lock text-dark"></i> 私有的</a>
         @if ($randomRoom != null)
         <a data-toggle="tooltip" data-placement="bottom" title="在随机公共房间玩" id="random-room" class="dropdown-item" style="cursor: pointer !important;" href="{{ URL::to('/') }}/fangjian/{{ $randomRoom['code'] }}/suijide"><i class="fas fa-random text-dark"></i> 随机房间</a>

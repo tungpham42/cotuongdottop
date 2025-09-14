@@ -50,7 +50,7 @@ function onDragStart (source, piece, position, orientation) {
 }
 
 function makeBestMove() {
-  var aiWorker = new Worker('/js/bot-worker.js');
+  var aiWorker = new Worker('/js/xiangqi_bot_worker.js');
   var bestMove;
   aiWorker.postMessage({
     fen: game.fen(),

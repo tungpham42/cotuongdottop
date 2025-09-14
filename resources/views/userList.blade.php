@@ -2,6 +2,9 @@
 @section('aboveContent')
 <div class="container-fluid game px-0">
   <div class="container p-3">
+    <div class="row">
+    @include('layout.partials.findMatch')
+    </div>
     <h2 class="h1-responsivefooter text-center my-4">Thành viên</h2>
     <div class="table-responsive">
       <table id="danh-sach-ky-thu" class="table table-bordered table-hover table-striped table-sm">

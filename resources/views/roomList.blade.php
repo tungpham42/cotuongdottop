@@ -2,6 +2,9 @@
 @section('aboveContent')
 <div class="container-fluid game px-0">
   <div class="container p-3">
+    <div class="row">
+    @include('layout.partials.findMatch')
+    </div>
     <h2 class="h1-responsivefooter text-center my-4">Sảnh chờ</h2>
     <div class="dropdown mx-auto text-center mb-3">
       <button data-step="1" data-intro="Ấn vào đây để tham gia thi đấu với các kỳ thủ khác" class="btn btn-danger btn-lg dropdown-toggle pulse-red" type="button" id="hostDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -13,7 +16,6 @@
         @else
         <a id="create-room" data-toggle="tooltip" data-placement="bottom" title="Thi đấu tính điểm và xếp hạng" class="dropdown-item thi-dau" style="cursor: pointer !important;" href="javascript:createRoom();"><i class="fas fa-trophy-alt text-dark"></i> Thi đấu</a>
         @endif
-        <a data-toggle="tooltip" data-placement="bottom" title="Chơi không cần mật khẩu" id="tao-phong-public" class="dropdown-item" style="cursor: pointer !important;"><i class="fas fa-globe text-dark"></i> Công khai</a>
         <a data-toggle="tooltip" data-placement="bottom" title="Chơi cần mật khẩu" id="tao-phong-private" class="dropdown-item" style="cursor: pointer !important;"><i class="fas fa-lock text-dark"></i> Riêng tư</a>
         @if ($randomRoom != null)
         <a data-toggle="tooltip" data-placement="bottom" title="Chơi trong phòng Công khai ngẫu nhiên" id="random-room" class="dropdown-item" style="cursor: pointer !important;" href="{{ URL::to('/') }}/phong/{{ $randomRoom['code'] }}/ngau-nhien"><i class="fas fa-random text-dark"></i> Ngẫu nhiên</a>

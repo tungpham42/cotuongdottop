@@ -24,6 +24,9 @@
             Your browser does not support the audio element.
           </audio>
           <div class="row">
+            @include('zh.layout.partials.findMatch')
+          </div>
+          <div class="row">
             <div class="col-12 text-center">
               @include('common.topAds')
               @yield('aboveBoard')
@@ -57,7 +60,6 @@
                 @include('common.tourBtn')
                 {{-- <a class="btn btn-dark text-light btn-lg stopPromotion shopee-link" href="https://shopee.vn/tungpham42" target="_blank"><i class="fad fa-shopping-cart"></i> 商店</a> --}}
                 <div class="dropdown-menu dropdown-menu-right shadow-lg" aria-labelledby="hostDropdown" id="tao-phong" data-phong="{{ md5(time()) }}" data-url="{{ URL::to('/') }}/fangjian/{{ md5(time()) }}">
-                  <a data-toggle="tooltip" data-placement="bottom" title="无密码播放" id="tao-phong-public" class="dropdown-item" style="cursor: pointer !important;"><i class="fas fa-globe text-dark"></i> 平民的</a>
                   <a data-toggle="tooltip" data-placement="bottom" title="玩密码" id="tao-phong-private" class="dropdown-item" style="cursor: pointer !important;"><i class="fas fa-lock text-dark"></i> 私有的</a>
                   @if ($randomRoom != null)
                   <a data-toggle="tooltip" data-placement="bottom" title="在随机公共房间玩" id="random-room" class="dropdown-item" style="cursor: pointer !important;" href="{{ URL::to('/') }}/fangjian/{{ $randomRoom['code'] }}/suijide"><i class="fas fa-random text-dark"></i> 随机房间</a>

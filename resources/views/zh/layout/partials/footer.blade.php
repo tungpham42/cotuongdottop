@@ -5,6 +5,7 @@
         <p>联系电子邮件</p>
         <a class="w-100 email stopPromotion" href="mailto:tung.42@gmail.com">tung.42@gmail.com</a>
         <p class="mt-3">版权 <i class="fal fa-copyright"></i> {{ date('Y') }} <a class="url fn h-card stopPromotion" target="_blank" href="https://tungpham42.github.io/">Tung Pham</a></p>
+        <div class="bg-white p-1" style="width: fit-content; border-radius: 0.5rem;"><a href="https://soft.io.vn" target="_blank"><img alt="Logo Soft" height="40" class="me-2" src="{{ url('') }}/img/soft-logo.webp"></a></div>
       </div>
       <div class="col-12 col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
         <ul class="list-unstyled">

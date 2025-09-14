@@ -1,4 +1,4 @@
-<button id="find-match-btn" class="px-5 py-2 mx-auto mt-3 btn btn-danger d-inline-block">
+<button id="find-match-btn" class="px-5 py-2 mx-auto mt-3 btn btn-lg btn-danger d-inline-block">
     <i class="fad fa-play mr-2"></i>
     @if ( $roomCode == '' )
         Tìm trận

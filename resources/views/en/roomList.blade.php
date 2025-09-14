@@ -2,13 +2,15 @@
 @section('aboveContent')
 <div class="container-fluid game px-0">
   <div class="container p-3">
+    <div class="row">
+      @include('en.layout.partials.findMatch')
+    </div>
     <h2 class="h1-responsivefooter text-center my-4">Rooms' list</h2>
     <div class="dropdown mx-auto text-center mb-3">
       <button data-step="1" data-intro="Click here to compete with other players" class="btn btn-danger btn-lg dropdown-toggle pulse-red" type="button" id="hostDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span data-toggle="tooltip" data-placement="top" title="Play with someone in a room"><i class="fad fa-gamepad-alt"></i> Play online</span>
       </button>
       <div class="dropdown-menu dropdown-menu-right shadow-lg" aria-labelledby="hostDropdown" id="tao-phong" data-phong="{{ md5(time()) }}" data-url="{{ URL::to('/') }}/room/{{ md5(time()) }}">
-        <a data-toggle="tooltip" data-placement="bottom" title="Play without password" id="tao-phong-public" class="dropdown-item" style="cursor: pointer !important;"><i class="fas fa-globe text-dark"></i> Public</a>
         <a data-toggle="tooltip" data-placement="bottom" title="Play with password" id="tao-phong-private" class="dropdown-item" style="cursor: pointer !important;"><i class="fas fa-lock text-dark"></i> Private</a>
         @if ($randomRoom != null)
         <a data-toggle="tooltip" data-placement="bottom" title="Play in random Public room" id="random-room" class="dropdown-item" style="cursor: pointer !important;" href="{{ URL::to('/') }}/room/{{ $randomRoom['code'] }}/random"><i class="fas fa-random text-dark"></i> Random</a>

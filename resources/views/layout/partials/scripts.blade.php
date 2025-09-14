@@ -254,12 +254,12 @@ function showLatestRoom(offset, newCode) {
     }
   });
 }
-window.onscroll = function() {
-  if (window.innerHeight + window.pageYOffset >= (document.body.offsetHeight / 3)) {
-    showLatestRoom(0, '{{ $roomCode }}');
-    window.onscroll = null;
-  }
-}
+// window.onscroll = function() {
+//   if (window.innerHeight + window.pageYOffset >= (document.body.offsetHeight / 3)) {
+//     showLatestRoom(0, '{{ $roomCode }}');
+//     window.onscroll = null;
+//   }
+// }
 @endif
 $('#random-room').on('click auxclick', function(e) {
   e.preventDefault();

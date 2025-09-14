@@ -2,6 +2,9 @@
 @section('aboveContent')
 <div class="container-fluid game px-0">
   <div class="container p-3">
+    <div class="row">
+    @include('layout.partials.findMatch')
+    </div>
     <h2 class="h1-responsivefooter text-center my-4">Tất cả thế cờ</h2>
     <div class="dropdown mx-auto text-center mb-3">
       <a data-step="1" data-intro="Ấn vào đây để xếp thế cờ mới" id="setup" class="btn btn-danger btn-lg" href="{{ url('/') }}/co-the"><i class="fad fa-plus-hexagon"></i> Xếp ván mới</a>

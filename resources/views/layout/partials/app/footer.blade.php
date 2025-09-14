@@ -172,12 +172,12 @@ function showLatestRoom(offset, newCode) {
     }
   });
 }
-window.onscroll = function() {
-  if (window.innerHeight + window.pageYOffset >= (document.body.offsetHeight / 3)) {
-    showLatestRoom(0);
-    window.onscroll = null;
-  }
-}
+// window.onscroll = function() {
+//   if (window.innerHeight + window.pageYOffset >= (document.body.offsetHeight / 3)) {
+//     showLatestRoom(0);
+//     window.onscroll = null;
+//   }
+// }
 $(function () {
   $('.menu-toggle').on('click', function(){
     $(this).toggleClass('open close');

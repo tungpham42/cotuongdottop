@@ -2,13 +2,15 @@
 @section('aboveContent')
 <div class="container-fluid game px-0">
   <div class="container p-3">
+    <div class="row">
+      @include('ko.layout.partials.findMatch')
+    </div>
     <h2 class="h1-responsivefooter text-center my-4">방 목록</h2>
     <div class="dropdown mx-auto text-center mb-3">
       <button data-step="1" data-intro="다른 플레이어들과 경쟁하려면 여기를 클릭하세요" class="btn btn-danger btn-lg dropdown-toggle pulse-red" type="button" id="hostDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span data-toggle="tooltip" data-placement="top" title="방에서 누군가와 놀기"><i class="fad fa-gamepad-alt"></i> 온라인으로 재생</span>
       </button>
       <div class="dropdown-menu dropdown-menu-right shadow-lg" aria-labelledby="hostDropdown" id="tao-phong" data-phong="{{ md5(time()) }}" data-url="{{ URL::to('/') }}/bang/{{ md5(time()) }}">
-        <a data-toggle="tooltip" data-placement="bottom" title="암호 없이 재생" id="tao-phong-public" class="dropdown-item" style="cursor: pointer !important;"><i class="fas fa-globe text-dark"></i> 공공의</a>
         <a data-toggle="tooltip" data-placement="bottom" title="암호로 재생" id="tao-phong-private" class="dropdown-item" style="cursor: pointer !important;"><i class="fas fa-lock text-dark"></i> 사적인</a>
         @if ($randomRoom != null)
         <a data-toggle="tooltip" data-placement="bottom" title="임의의 공용 룸에서 재생" id="random-room" class="dropdown-item" style="cursor: pointer !important;" href="{{ URL::to('/') }}/bang/{{ $randomRoom['code'] }}/mujag-wiui"><i class="fas fa-random text-dark"></i> 무작위의</a>

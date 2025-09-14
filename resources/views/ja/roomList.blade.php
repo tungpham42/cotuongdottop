@@ -2,13 +2,15 @@
 @section('aboveContent')
 <div class="container-fluid game px-0">
   <div class="container p-3">
+    <div class="row">
+      @include('ja.layout.partials.findMatch')
+    </div>
     <h2 class="h1-responsivefooter text-center my-4">部屋一覧</h2>
     <div class="dropdown mx-auto text-center mb-3">
       <button data-step="1" data-intro="他のプレイヤーと競争するにはここをクリックしてください" class="btn btn-danger btn-lg dropdown-toggle pulse-red" type="button" id="hostDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span data-toggle="tooltip" data-placement="top" title="部屋で誰かと遊ぶ"><i class="fad fa-gamepad-alt"></i> オンラインでプレイ</span>
       </button>
       <div class="dropdown-menu dropdown-menu-right shadow-lg" aria-labelledby="hostDropdown" id="tao-phong" data-phong="{{ md5(time()) }}" data-url="{{ URL::to('/') }}/rumu/{{ md5(time()) }}">
-        <a data-toggle="tooltip" data-placement="bottom" title="パスワードなしでプレイ" id="tao-phong-public" class="dropdown-item" style="cursor: pointer !important;"><i class="fas fa-globe text-dark"></i> 公衆</a>
         <a data-toggle="tooltip" data-placement="bottom" title="パスワードで遊ぶ" id="tao-phong-private" class="dropdown-item" style="cursor: pointer !important;"><i class="fas fa-lock text-dark"></i> 民間</a>
         @if ($randomRoom != null)
         <a data-toggle="tooltip" data-placement="bottom" title="ランダムな公開ルームでプレイ" id="random-room" class="dropdown-item" style="cursor: pointer !important;" href="{{ URL::to('/') }}/rumu/{{ $randomRoom['code'] }}/randamu"><i class="fas fa-random text-dark"></i> ランダム</a>
